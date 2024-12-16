@@ -30,7 +30,7 @@ public class CategoriaService {
 		return categoriaRepository.findAll();
 	}
 
-	public Optional<Categoria> buscarUsuarioPorId(Long id) {
+	public Optional<Categoria> buscarCategoriaPorId(Long id) {
 		return categoriaRepository.findById(id);
 	}
 
@@ -49,7 +49,7 @@ public class CategoriaService {
 		return Optional.empty();
 	}
 
-	public void deletarUsuario(Long id) {
+	public void deletarCategoriaPorId(Long id) {
 		
 		Optional<Categoria> categoria = categoriaRepository.findById(id);
 		

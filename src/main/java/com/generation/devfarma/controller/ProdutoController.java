@@ -13,47 +13,52 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.generation.devfarma.model.Categoria;
-import com.generation.devfarma.service.CategoriaService;
+import com.generation.devfarma.model.Produto;
+import com.generation.devfarma.service.ProdutoService;
 
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaController {
+@RequestMapping("/produtos")
+public class ProdutoController {
 
 	@Autowired
-	private CategoriaService categoriaService;
+	private ProdutoService produtoService;
 
 	@PostMapping
-	public ResponseEntity<Categoria> postCategoria(@RequestBody Categoria categoria) {
+	public ResponseEntity<Produto> postProduto(@RequestBody Produto produto) {
 
-		return categoriaService.cadastrarCategoria(categoria)
+		return produtoService.cadastrarProduto(produto)
 				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Categoria>> getAllCategorias() {
+	public ResponseEntity<List<Produto>> getAllProduto() {
 
-		return ResponseEntity.ok(categoriaService.listarTodasCategorias());
+		return ResponseEntity.ok(produtoService.listarTodosProdutos());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> getCategoriaById(@PathVariable Long id) {
+	public ResponseEntity<Produto> getProdutoById(@PathVariable Long id) {
 
-		return categoriaService.buscarCategoriaPorId(id).map(resposta -> ResponseEntity.ok(resposta))
+		return produtoService.buscarProdutoPorId(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
+
 	@GetMapping("/nome/{nome}")
-	public ResponseEntity<List<Categoria>> getCategoriasByNome(@PathVariable String nome){
-		
-		return ResponseEntity.ok(categoriaService.buscarCategoriasPorNome(nome));
+	public ResponseEntity<List<Produto>> getProdutosByNome(@PathVariable String nome) {
+
+		return ResponseEntity.ok(produtoService.buscarProdutoPorNome(nome));
+	}
+
+	@GetMapping("categoria/{categoria}")
+	public ResponseEntity<List<Produto>> findProdutoByCategoria(@PathVariable String categoria) {
+		return ResponseEntity.ok(produtoService.buscarPorCategoria(categoria));
 	}
 
 	@PutMapping
-	public ResponseEntity<Categoria> putCategoria(@RequestBody Categoria categoria) {
+	public ResponseEntity<Produto> putProduto(@RequestBody Produto produto) {
 
-		return categoriaService.atualizarCategoria(categoria).map(resposta -> ResponseEntity.ok(resposta))
+		return produtoService.atualizarProduto(produto).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
@@ -61,7 +66,7 @@ public class CategoriaController {
 	@DeleteMapping("/{id}")
 	public void deleteCategoria(@PathVariable Long id) {
 
-		categoriaService.deletarCategoriaPorId(id);
+		produtoService.deletarProduto(id);
 
 	}
 }
